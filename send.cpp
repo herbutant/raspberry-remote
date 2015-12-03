@@ -28,7 +28,7 @@ int main(int argc, char *argv[]) {
    * for pin mapping of the raspberry pi GPIO connector
    * run gpio -v to get an overview of your RaspberryPi's mapping
    */
-  int PIN = 6;
+  int PIN = 22;
   /**
    * using old numbering mode by default,
    * see RCSwitch.cpp for differences
