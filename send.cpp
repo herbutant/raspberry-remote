@@ -13,11 +13,12 @@ void printUsage(){
   printf("This is rasperry remote, an application to control remote plugs with the Raspberry Pi.\n");
   printf("Based on RCSwitch and wiringPi. See github.com/xkonni/raspberry-remote for further reference.\n");
   printf("Usage: \n sudo send [-b] <systemCode> <unitCode> <command> or:\n sudo send -h\n");
+  printf("   Or: \n sudo send [-b] <systemCode> <unitCode> <command> <wiringPiPINNumber>");
   printf("Where the -b argument switches the instance to binary mode, and the -h option displays this help.\n\n");
   printf("Binary mode means, that instead numbering the sockets by 00001 00010 00100 01000 10000, the sockets\n");
   printf("are numbered in real binary numbers as following: 00001 00010 00011 00100 00101 00110 and so on.\n");
   printf("This means that your sockets need to be setup in this manner, which often includes that the dedicated remote\n");
-  printf("is rendered useless, but more than 6 sockets are supported.\n");
+  printf("is rendered useless, but more than 6 sockets are supported.\n");  
 }
 
 int main(int argc, char *argv[]) {
@@ -25,8 +26,9 @@ int main(int argc, char *argv[]) {
    * output PIN is hardcoded for testing purposes
    * see https://projects.drogon.net/raspberry-pi/wiringpi/pins/
    * for pin mapping of the raspberry pi GPIO connector
+   * run gpio -v to get an overview of your RaspberryPi's mapping
    */
-  int PIN = 0;
+  int PIN = 6;
   /**
    * using old numbering mode by default,
    * see RCSwitch.cpp for differences
@@ -43,6 +45,7 @@ int main(int argc, char *argv[]) {
      * 1: systemCode
      * 2: unitCode
      * 3: command
+	 * 4: PIN [optional] (wiringPi numbering!)
      * if there are less arguments, the help should be printed
      * and the application should terminate.
      */
@@ -69,6 +72,7 @@ int main(int argc, char *argv[]) {
      * 2: systemCode
      * 3: unitCode
      * 4: command
+	 * 5: PIN [optional] (wiringPi numbering!)
      * if there are less arguments, the help should be printed,
      * and the application should terminate.
      */
@@ -82,6 +86,9 @@ int main(int argc, char *argv[]) {
     systemCode = argv[2];
     unitCode = atoi(argv[3]);
     command  = atoi(argv[4]);
+	if (argc == 6) {
+		PIN  = atoi(argv[5]);
+	}
   } else if (firstArgument == "-h" or firstArgument == "--help" or firstArgument == "-?") {
     printUsage();
   } else {
@@ -89,6 +96,9 @@ int main(int argc, char *argv[]) {
     systemCode = argv[1];
     unitCode = atoi(argv[2]);
     command  = atoi(argv[3]);
+	if (argc == 5) {
+		PIN  = atoi(argv[4]);
+	}
   }
 
   if (wiringPiSetup () == -1) return 1;

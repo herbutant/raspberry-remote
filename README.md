@@ -25,11 +25,13 @@ https://github.com/Panzenbaby/Raspberry-Remote-for-Windows-10-IoT-Core
 * Install wiringPi. See https://projects.drogon.net/raspberry-pi/wiringpi/
 * Checkout this project
 * Compile it
-* Connect pin11 of the raspberry to the transmitter
+* On the Pi 2B, connect pin15 (GPIO22) of the raspberry to the transmitter
 
 ## Usage
 Try if all is working with the send program
-*  Switch on single socket: `./send.cpp 00001 1 1`
+*  Switch on single socket: `./send.cpp 00001 1 1` or
+*  Switch on single socket: `./send.cpp 00001 1 1 <wiringPiPINNumber>`  if you have connected the Data wire to a different GPIO PIN
+
 
 Pass the `-b`-option to use binary socket numbering instead of the common "only one switch up"-numbering. See [Binary Mode](#binary-mode) for further details.
 
